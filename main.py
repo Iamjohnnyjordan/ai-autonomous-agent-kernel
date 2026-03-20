@@ -67,12 +67,14 @@ def refine_goal(current_goal):
     return new_goal
 
 for step in range(config["max_steps"]):
+    remaining_budget = config["budget_limit"] - step
 
     print(f"\nSTEP {step+1}:")
 
     goal = goals["current_goal"]
 
     print("Current Goal:", goal)
+    print("Remaining Budget:", remaining_budget)
 
     thought = random.choices(
         population=list(thought_weights.keys()),
@@ -81,6 +83,11 @@ for step in range(config["max_steps"]):
      )[0]
     
     print("Thought Type:", thought)
+
+
+    if remaining_budget <= 2:
+        print("Low budget mode activated")
+
 
     action = decide_action(thought)
     print("Chosen Action:", action)
@@ -98,7 +105,8 @@ for step in range(config["max_steps"]):
     if action == "refine_goal":
         print("AI is refining its goal...")
         goals["current_goal"] = refine_goal(goals["current_goal"])
-        
+    
+
 
     if thought == "analyze":
         print("Analyzing the goal...")
@@ -107,7 +115,7 @@ for step in range(config["max_steps"]):
     elif thought == "task":
         print("Creating a task...")
     elif thought == "evaluate":
-        print("Evauluating progress...")
+        print("Evaluating progress...")
     elif thought == "question":
         print("Asking a question about the goal...")
 
