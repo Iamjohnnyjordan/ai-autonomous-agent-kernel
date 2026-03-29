@@ -49,6 +49,8 @@ print(memory)
 
 print("\n--- AI KERNEL START ---")
 
+thinking_mode = "stochastic" # or "deterministic"
+
 def decide_action(thought):
     if thought == "analyze":
         return "search_memory"
@@ -76,17 +78,21 @@ for step in range(config["max_steps"]):
     print("Current Goal:", goal)
     print("Remaining Budget:", remaining_budget)
 
-    thought = random.choices(
-        population=list(thought_weights.keys()),
-        weights=list(thought_weights.values()),
-        k=1
-     )[0]
+    if thinking_mode == "stochastic":
+        thought = random.choices(
+            population=list(thought_weights.keys()),
+            weights=list(thought_weights.values()),
+            k=1
+        )[0]
+    else:
+        thought = max(thought_weights, key=thought_weights.get)
     
     print("Thought Type:", thought)
 
 
-    if remaining_budget <= 2:
+    if remaining_budget <= 5:
         print("Low budget mode activated")
+        thought = "task"
 
 
     action = decide_action(thought)
