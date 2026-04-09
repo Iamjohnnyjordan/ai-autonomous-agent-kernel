@@ -49,7 +49,7 @@ print(memory)
 
 print("\n--- AI KERNEL START ---")
 
-thinking_mode = "stochastic" # or "deterministic"
+thinking_mode = config["thinking_mode"] #manual switch no longer thinking pulled up in config
 
 def decide_action(thought):
     if thought == "analyze":
@@ -68,8 +68,39 @@ def refine_goal(current_goal):
     new_goal = current_goal + "(refined)"
     return new_goal
 
+def score_thought(thought, goal, memory, remaining_budget):
+    score = 0 
+
+    if thought == "task":
+        score += 5
+    elif thought == "analyze":
+        score += 3
+    
+    if remaining_budget <= 5 and thought == "task":
+        score += 3 
+    
+    if "refined" in goal and thought == "evaluate":
+        score += 2 
+    
+    return score
+
+def is_progress_made(memory):
+    # check if anything new was learned or changed
+    return False  # right now yours is always false
+
 for step in range(config["max_steps"]):
     remaining_budget = config["budget_limit"] - step
+
+    # build scores dynamically using the scoring function
+    thought_score_map = {}
+    for t in thought_types:
+        thought_score_map[t] = score_thought(
+            t,
+            goal=goals["current_goal"],
+            memory=memory,
+            remaining_budget=remaining_budget
+        )
+
 
     print(f"\nSTEP {step+1}:")
 
@@ -78,6 +109,9 @@ for step in range(config["max_steps"]):
     print("Current Goal:", goal)
     print("Remaining Budget:", remaining_budget)
 
+    if not is_progress_made(memory):
+        print("No progress detected - boosting analyze score")
+        thought_score_map["analyze"] += 5
     if thinking_mode == "stochastic":
         thought = random.choices(
             population=list(thought_weights.keys()),
@@ -85,14 +119,16 @@ for step in range(config["max_steps"]):
             k=1
         )[0]
     else:
-        thought = max(thought_weights, key=thought_weights.get)
+        thought = max(thought_score_map, key=thought_score_map.get)
+
     
     print("Thought Type:", thought)
 
 
     if remaining_budget <= 5:
-        print("Low budget mode activated")
-        thought = "task"
+        print("Low budget mode activated (score influence only)")
+        thought_score_map["task"] += 3
+        thought = max(thought_score_map, key=thought_score_map.get)
 
 
     action = decide_action(thought)
@@ -129,7 +165,8 @@ for step in range(config["max_steps"]):
 
         "step": step + 1,
         "goal": goal,
-        "thought":thought,
+        "thought": thought,
+        "score": thought_score_map.get(thought, None),
         "time": datetime.datetime.now().isoformat()
     }
 

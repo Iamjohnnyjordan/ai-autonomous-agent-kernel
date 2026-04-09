@@ -1,5 +1,7 @@
 {
   "identity": "AI Kernel v1",
   "max_steps": 5,
-  "budget_limit": 10
+  "budget_limit": 10,
+  "thinking_mode": "deterministic"
+
 }
