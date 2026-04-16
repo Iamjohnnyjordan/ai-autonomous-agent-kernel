@@ -75,18 +75,24 @@ def score_thought(thought, goal, memory, remaining_budget):
         score += 5
     elif thought == "analyze":
         score += 3
-    
     if remaining_budget <= 5 and thought == "task":
         score += 3 
-    
     if "refined" in goal and thought == "evaluate":
         score += 2 
-    
+    recent = recent_thoughts(memory) #call thoughts
+
+    if recent.count(thought) >= 2: #how many times though appears if it show up two or more times
+        score -= 4 # if it does show up take away four points does something multiple times says stop it scor
+
     return score
 
 def is_progress_made(memory):
     # check if anything new was learned or changed
     return False  # right now yours is always false
+def recent_thoughts(memory, n=3):
+    thoughts = [note["thought"] for note in memory["notes"] if "thought" in note]
+    return thoughts[-n:]
+
 
 for step in range(config["max_steps"]):
     remaining_budget = config["budget_limit"] - step
@@ -111,7 +117,7 @@ for step in range(config["max_steps"]):
 
     if not is_progress_made(memory):
         print("No progress detected - boosting analyze score")
-        thought_score_map["analyze"] += 5
+        thought_score_map["analyze"] += 2
     if thinking_mode == "stochastic":
         thought = random.choices(
             population=list(thought_weights.keys()),
@@ -119,6 +125,7 @@ for step in range(config["max_steps"]):
             k=1
         )[0]
     else:
+        print("THOUGHT SCORES:", thought_score_map)
         thought = max(thought_score_map, key=thought_score_map.get)
 
     
