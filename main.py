@@ -16,6 +16,13 @@ actions = [
     "refine_goal",
     "do_nothing"
 ]
+#task = {key > Value}
+task_que = [
+{"task": "analyze_goal", "priority": 3},
+{"task": "create_plan", "priority": 2},
+{"task": "execute_task", "priority": 1}
+
+]
 
 thought_weights = {
     "analyze": 0.35,
@@ -86,13 +93,43 @@ def score_thought(thought, goal, memory, remaining_budget):
 
     return score
 
-def is_progress_made(memory):
+def is_progress_made(memory): #learn
     # check if anything new was learned or changed
-    return False  # right now yours is always false
+    notes = memory["notes"]
+    recent = notes[-3:] #learn
+    
+    for note in recent:  #learn
+        if note.get("event") == "progress_logged":
+            return True
+    return False    # learn why is outside the loop instead of under if i checked all notes and found nothing return false becuase there is no event in the notes
+
+    
+          # false and not 
+
 def recent_thoughts(memory, n=3):
     thoughts = [note["thought"] for note in memory["notes"] if "thought" in note]
     return thoughts[-n:]
 
+def get_next_task(task_que):
+    if not task_que:
+        return None
+
+    sorted_tasks = sorted(task_que, key=lambda x: x["priority"], reverse=True) #learn this line more
+
+    return sorted_tasks[0]
+
+def execute_task(task):
+    if task["task"] == "analyze_goal": #learn how does it know how to look in dictionary it doesnt say task_que
+        print("Executing: analyzing goal deeply...")
+
+    elif task["task"] =="create_plan":
+        print("Executing: creating a plan...")
+    
+    elif task["task"] == "execute_task":
+        print("Executing: performing a real task...")
+
+def remove_task(task_que, task):
+    task_que.remove(task)
 
 for step in range(config["max_steps"]):
     remaining_budget = config["budget_limit"] - step
@@ -114,6 +151,14 @@ for step in range(config["max_steps"]):
 
     print("Current Goal:", goal)
     print("Remaining Budget:", remaining_budget)
+
+    current_task = get_next_task(task_que)
+
+    if current_task: 
+        print("Current Task:", current_task)
+        execute_task(current_task)
+        remove_task(task_que, current_task)
+    
 
     if not is_progress_made(memory):
         print("No progress detected - boosting analyze score")
@@ -142,7 +187,11 @@ for step in range(config["max_steps"]):
     print("Chosen Action:", action)
 
     if action == "search_memory":
-        print(memory)
+        for note in memory["notes"]:
+            print("\n----------")
+            if "step" in note:
+                print(f"STEP {note['step']}")
+            print(note)
         print("reviewing past observations...")
     
     if action == "log_progress":
@@ -163,6 +212,16 @@ for step in range(config["max_steps"]):
         print("Generating  a new idea...")
     elif thought == "task":
         print("Creating a task...")
+
+        if "analyze" in recent_thoughts(memory):
+            new_task = {"task": "create_plan", "priority": 2}
+        else:
+            new_task = {"task": "analyze_goal", "priority": 2}
+        
+        task_que.append(new_task)
+        print("New task added:", new_task)
+
+
     elif thought == "evaluate":
         print("Evaluating progress...")
     elif thought == "question":
