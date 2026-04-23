@@ -16,6 +16,8 @@ actions = [
     "refine_goal",
     "do_nothing"
 ]
+
+
 #task = {key > Value}
 task_que = [
 {"task": "analyze_goal", "priority": 3},
@@ -23,6 +25,9 @@ task_que = [
 {"task": "execute_task", "priority": 1}
 
 ]
+
+
+completed_tasks = []
 
 thought_weights = {
     "analyze": 0.35,
@@ -122,14 +127,27 @@ def execute_task(task):
     if task["task"] == "analyze_goal": #learn how does it know how to look in dictionary it doesnt say task_que
         print("Executing: analyzing goal deeply...")
 
-    elif task["task"] =="create_plan":
+    elif task["task"] == "create_plan":
         print("Executing: creating a plan...")
+
+        plan = ["analyze", "build", "test"]
+        memory["plan"] = plan
+
+        print("Plan stored in memory:", plan)
     
     elif task["task"] == "execute_task":
         print("Executing: performing a real task...")
+    
+    completed_tasks.append(task)
 
 def remove_task(task_que, task):
     task_que.remove(task)
+
+def task_exists(task_que, task_name):
+    for t in task_que:
+        if t["task"] == task_name:
+            return True
+    return False
 
 for step in range(config["max_steps"]):
     remaining_budget = config["budget_limit"] - step
@@ -215,11 +233,17 @@ for step in range(config["max_steps"]):
 
         if "analyze" in recent_thoughts(memory):
             new_task = {"task": "create_plan", "priority": 2}
+        elif "create_plan" in recent_thoughts(memory):
+            new_task = {"task": "execute_task", "priority": 1}
         else:
             new_task = {"task": "analyze_goal", "priority": 2}
         
-        task_que.append(new_task)
-        print("New task added:", new_task)
+        if not task_exists(task_que, new_task["task"]):
+            task_que.append(new_task)
+            print("New task added:", new_task)
+        else:
+            print("Task already exists, skipping", new_task)
+
 
 
     elif thought == "evaluate":
