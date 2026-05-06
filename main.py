@@ -1,6 +1,8 @@
 import json
 import datetime
 import random
+import planning
+
 
 thought_types = [
     "analyze",
@@ -19,7 +21,7 @@ actions = [
 
 
 #task = {key > Value}
-task_que = [
+task_queue = [
 {"task": "analyze_goal", "priority": 3},
 {"task": "create_plan", "priority": 2},
 {"task": "execute_task", "priority": 1}
@@ -80,6 +82,8 @@ def refine_goal(current_goal):
     new_goal = current_goal + "(refined)"
     return new_goal
 
+
+
 def score_thought(thought, goal, memory, remaining_budget):
     score = 0 
 
@@ -115,16 +119,16 @@ def recent_thoughts(memory, n=3):
     thoughts = [note["thought"] for note in memory["notes"] if "thought" in note]
     return thoughts[-n:]
 
-def get_next_task(task_que):
-    if not task_que:
+def get_next_task(task_queue):
+    if not task_queue:
         return None
 
-    sorted_tasks = sorted(task_que, key=lambda x: x["priority"], reverse=True) #learn this line more
+    sorted_tasks = sorted(task_queue, key=lambda x: x["priority"], reverse=True) #learn this line more
 
     return sorted_tasks[0]
 
 def execute_task(task):
-    if task["task"] == "analyze_goal": #learn how does it know how to look in dictionary it doesnt say task_que
+    if task["task"] == "analyze_goal": #learn how does it know how to look in dictionary it doesnt say task_queue
         print("Executing: analyzing goal deeply...")
 
     elif task["task"] == "create_plan":
@@ -140,14 +144,16 @@ def execute_task(task):
     
     completed_tasks.append(task)
 
-def remove_task(task_que, task):
-    task_que.remove(task)
+def remove_task(task_queue, task):
+    task_queue.remove(task)
 
-def task_exists(task_que, task_name):
-    for t in task_que:
+def task_exists(task_queue, task_name):
+    for t in task_queue:
         if t["task"] == task_name:
             return True
     return False
+
+
 
 for step in range(config["max_steps"]):
     remaining_budget = config["budget_limit"] - step
@@ -166,16 +172,35 @@ for step in range(config["max_steps"]):
     print(f"\nSTEP {step+1}:")
 
     goal = goals["current_goal"]
+    subgoals = planning.decompose_goal(goal)
+
 
     print("Current Goal:", goal)
+    print("Subgoals:", subgoals)
     print("Remaining Budget:", remaining_budget)
 
-    current_task = get_next_task(task_que)
+
+    current_task = get_next_task(task_queue)
+
+    for subgoal in subgoals:
+
+        new_task = {
+            "task": subgoal,
+            "priority": 2
+        }
+
+        if not task_exists(task_queue, new_task["task"]):
+            task_queue.append(new_task)
+        
+        else:
+            print("Task already exists:", new_task["task"])
+
+
 
     if current_task: 
         print("Current Task:", current_task)
         execute_task(current_task)
-        remove_task(task_que, current_task)
+        remove_task(task_queue, current_task)
     
 
     if not is_progress_made(memory):
@@ -238,8 +263,8 @@ for step in range(config["max_steps"]):
         else:
             new_task = {"task": "analyze_goal", "priority": 2}
         
-        if not task_exists(task_que, new_task["task"]):
-            task_que.append(new_task)
+        if not task_exists(task_queue, new_task["task"]):
+            task_queue.append(new_task)
             print("New task added:", new_task)
         else:
             print("Task already exists, skipping", new_task)
