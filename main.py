@@ -2,7 +2,8 @@ import json
 import datetime
 import random
 import planning
-
+import feedback
+import scoring
 
 thought_types = [
     "analyze",
@@ -84,23 +85,6 @@ def refine_goal(current_goal):
 
 
 
-def score_thought(thought, goal, memory, remaining_budget):
-    score = 0 
-
-    if thought == "task":
-        score += 5
-    elif thought == "analyze":
-        score += 3
-    if remaining_budget <= 5 and thought == "task":
-        score += 3 
-    if "refined" in goal and thought == "evaluate":
-        score += 2 
-    recent = recent_thoughts(memory) #call thoughts
-
-    if recent.count(thought) >= 2: #how many times though appears if it show up two or more times
-        score -= 4 # if it does show up take away four points does something multiple times says stop it scor
-
-    return score
 
 def is_progress_made(memory): #learn
     # check if anything new was learned or changed
@@ -115,9 +99,7 @@ def is_progress_made(memory): #learn
     
           # false and not 
 
-def recent_thoughts(memory, n=3):
-    thoughts = [note["thought"] for note in memory["notes"] if "thought" in note]
-    return thoughts[-n:]
+
 
 def get_next_task(task_queue):
     if not task_queue:
@@ -161,7 +143,7 @@ for step in range(config["max_steps"]):
     # build scores dynamically using the scoring function
     thought_score_map = {}
     for t in thought_types:
-        thought_score_map[t] = score_thought(
+        thought_score_map[t] = scoring.score_thought(
             t,
             goal=goals["current_goal"],
             memory=memory,
@@ -192,14 +174,26 @@ for step in range(config["max_steps"]):
         if not task_exists(task_queue, new_task["task"]):
             task_queue.append(new_task)
         
+        
         else:
             print("Task already exists:", new_task["task"])
 
 
-
+#review
     if current_task: 
         print("Current Task:", current_task)
         execute_task(current_task)
+        feedback_result = feedback.evaluate_task_result(current_task)
+        memory["notes"].append({
+            "event": "feedback",
+            "task": feedback_result["task"], # go into feedback_result dictionary and pull task value
+            "success": feedback_result["success"],
+            "reward": feedback_result["reward"],
+            "time": datetime.datetime.now().isoformat()
+
+
+        })
+
         remove_task(task_queue, current_task)
     
 
