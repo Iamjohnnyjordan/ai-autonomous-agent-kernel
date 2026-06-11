@@ -167,6 +167,326 @@
       "thought": "task",
       "score": 5,
       "time": "2026-05-11T22:53:17.394602"
+    },
+    {
+      "event": "feedback",
+      "task": "analyze_goal",
+      "success": false,
+      "reward": -1,
+      "time": "2026-05-13T23:57:07.389968"
+    },
+    {
+      "event": "progress_logged",
+      "time": "2026-05-13T23:57:07.389993"
+    },
+    {
+      "step": 1,
+      "goal": "Learn controlled AI architecture",
+      "thought": "task",
+      "score": 5,
+      "time": "2026-05-13T23:57:07.390003"
+    },
+    {
+      "event": "feedback",
+      "task": "create_plan",
+      "success": true,
+      "reward": 2,
+      "time": "2026-05-13T23:57:07.390049"
+    },
+    {
+      "step": 2,
+      "goal": "Learn controlled AI architecture",
+      "thought": "analyze",
+      "score": 3,
+      "time": "2026-05-13T23:57:07.390240"
+    },
+    {
+      "event": "feedback",
+      "task": "Build memory system",
+      "success": true,
+      "reward": 2,
+      "time": "2026-05-13T23:57:07.390276"
+    },
+    {
+      "step": 3,
+      "goal": "Learn controlled AI architecture",
+      "thought": "analyze",
+      "score": 5,
+      "time": "2026-05-13T23:57:07.390555"
+    },
+    {
+      "event": "feedback",
+      "task": "Build reasoning system",
+      "success": false,
+      "reward": -1,
+      "time": "2026-05-13T23:57:07.390587"
+    },
+    {
+      "event": "progress_logged",
+      "time": "2026-05-13T23:57:07.390600"
+    },
+    {
+      "step": 4,
+      "goal": "Learn controlled AI architecture",
+      "thought": "task",
+      "score": 5,
+      "time": "2026-05-13T23:57:07.390609"
+    },
+    {
+      "event": "feedback",
+      "task": "Build planning system",
+      "success": false,
+      "reward": -1,
+      "time": "2026-05-13T23:57:07.390705"
+    },
+    {
+      "event": "progress_logged",
+      "time": "2026-05-13T23:57:07.390716"
+    },
+    {
+      "step": 5,
+      "goal": "Learn controlled AI architecture",
+      "thought": "task",
+      "score": 5,
+      "time": "2026-05-13T23:57:07.390724"
+    },
+    {
+      "event": "feedback",
+      "task": "analyze_goal",
+      "success": false,
+      "reward": -1,
+      "time": "2026-06-10T23:29:28.100744"
+    },
+    {
+      "step": 1,
+      "goal": "Learn controlled AI architecture",
+      "thought": "analyze",
+      "score": 4,
+      "time": "2026-06-10T23:29:28.101065"
+    },
+    {
+      "event": "feedback",
+      "task": "create_plan",
+      "success": true,
+      "reward": 2,
+      "time": "2026-06-10T23:29:28.101138"
+    },
+    {
+      "step": 2,
+      "goal": "Learn controlled AI architecture",
+      "thought": "analyze",
+      "score": 6,
+      "time": "2026-06-10T23:29:28.101570"
+    },
+    {
+      "event": "feedback",
+      "task": "Build memory system",
+      "success": true,
+      "reward": 2,
+      "time": "2026-06-10T23:29:28.101649"
+    },
+    {
+      "event": "progress_logged",
+      "time": "2026-06-10T23:29:28.101670"
+    },
+    {
+      "step": 3,
+      "goal": "Learn controlled AI architecture",
+      "thought": "task",
+      "score": 6,
+      "time": "2026-06-10T23:29:28.101684"
+    },
+    {
+      "event": "feedback",
+      "task": "Build reasoning system",
+      "success": false,
+      "reward": -1,
+      "time": "2026-06-10T23:29:28.101811"
+    },
+    {
+      "event": "progress_logged",
+      "time": "2026-06-10T23:29:28.101844"
+    },
+    {
+      "step": 4,
+      "goal": "Learn controlled AI architecture",
+      "thought": "task",
+      "score": 6,
+      "time": "2026-06-10T23:29:28.101861"
+    },
+    {
+      "event": "feedback",
+      "task": "Build planning system",
+      "success": false,
+      "reward": -1,
+      "time": "2026-06-10T23:29:28.101933"
+    },
+    {
+      "step": 5,
+      "goal": "Learn controlled AI architecture",
+      "thought": "analyze",
+      "score": 4,
+      "time": "2026-06-10T23:29:28.102299"
+    },
+    {
+      "event": "feedback",
+      "task": "analyze_goal",
+      "success": false,
+      "reward": -1,
+      "time": "2026-06-10T23:32:00.171701"
+    },
+    {
+      "step": 1,
+      "goal": "Learn controlled AI architecture",
+      "thought": "analyze",
+      "score": 6,
+      "time": "2026-06-10T23:32:00.172107"
+    },
+    {
+      "event": "feedback",
+      "task": "create_plan",
+      "success": true,
+      "reward": 2,
+      "time": "2026-06-10T23:32:00.172190"
+    },
+    {
+      "event": "progress_logged",
+      "time": "2026-06-10T23:32:00.172209"
+    },
+    {
+      "step": 2,
+      "goal": "Learn controlled AI architecture",
+      "thought": "task",
+      "score": 6,
+      "time": "2026-06-10T23:32:00.172224"
+    },
+    {
+      "event": "feedback",
+      "task": "Build memory system",
+      "success": true,
+      "reward": 2,
+      "time": "2026-06-10T23:32:00.172420"
+    },
+    {
+      "event": "progress_logged",
+      "time": "2026-06-10T23:32:00.172443"
+    },
+    {
+      "step": 3,
+      "goal": "Learn controlled AI architecture",
+      "thought": "task",
+      "score": 6,
+      "time": "2026-06-10T23:32:00.172460"
+    },
+    {
+      "event": "feedback",
+      "task": "Build reasoning system",
+      "success": false,
+      "reward": -1,
+      "time": "2026-06-10T23:32:00.172538"
+    },
+    {
+      "step": 4,
+      "goal": "Learn controlled AI architecture",
+      "thought": "analyze",
+      "score": 4,
+      "time": "2026-06-10T23:32:00.172971"
+    },
+    {
+      "event": "feedback",
+      "task": "Build planning system",
+      "success": false,
+      "reward": -1,
+      "time": "2026-06-10T23:32:00.173041"
+    },
+    {
+      "step": 5,
+      "goal": "Learn controlled AI architecture",
+      "thought": "analyze",
+      "score": 6,
+      "time": "2026-06-10T23:32:00.173660"
+    },
+    {
+      "event": "feedback",
+      "task": "analyze_goal",
+      "success": false,
+      "reward": -1,
+      "time": "2026-06-10T23:32:53.143112"
+    },
+    {
+      "event": "progress_logged",
+      "time": "2026-06-10T23:32:53.143146"
+    },
+    {
+      "step": 1,
+      "goal": "Learn controlled AI architecture",
+      "thought": "task",
+      "score": 6,
+      "time": "2026-06-10T23:32:53.143162"
+    },
+    {
+      "event": "feedback",
+      "task": "create_plan",
+      "success": true,
+      "reward": 2,
+      "time": "2026-06-10T23:32:53.143249"
+    },
+    {
+      "event": "progress_logged",
+      "time": "2026-06-10T23:32:53.143265"
+    },
+    {
+      "step": 2,
+      "goal": "Learn controlled AI architecture",
+      "thought": "task",
+      "score": 6,
+      "time": "2026-06-10T23:32:53.143279"
+    },
+    {
+      "event": "feedback",
+      "task": "Build memory system",
+      "success": true,
+      "reward": 2,
+      "time": "2026-06-10T23:32:53.143356"
+    },
+    {
+      "step": 3,
+      "goal": "Learn controlled AI architecture",
+      "thought": "analyze",
+      "score": 4,
+      "time": "2026-06-10T23:32:53.143859"
+    },
+    {
+      "event": "feedback",
+      "task": "Build reasoning system",
+      "success": false,
+      "reward": -1,
+      "time": "2026-06-10T23:32:53.143933"
+    },
+    {
+      "step": 4,
+      "goal": "Learn controlled AI architecture",
+      "thought": "analyze",
+      "score": 6,
+      "time": "2026-06-10T23:32:53.144669"
+    },
+    {
+      "event": "feedback",
+      "task": "Build planning system",
+      "success": false,
+      "reward": -1,
+      "time": "2026-06-10T23:32:53.144763"
+    },
+    {
+      "event": "progress_logged",
+      "time": "2026-06-10T23:32:53.144783"
+    },
+    {
+      "step": 5,
+      "goal": "Learn controlled AI architecture",
+      "thought": "task",
+      "score": 6,
+      "time": "2026-06-10T23:32:53.144797"
     }
   ],
   "plan": [

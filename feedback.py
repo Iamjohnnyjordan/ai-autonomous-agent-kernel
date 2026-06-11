@@ -2,9 +2,9 @@
 def evaluate_task_result(task):
 
     successful_tasks = [
-        "analyze_goals"
-        "create_plan",
-        "Build memory system"
+        "analyze_goals", #successfull reasoning task
+        "create_plan", #successfull planing task
+        "Build memory system" #successfull decomposition task
 
     ]
 

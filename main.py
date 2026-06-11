@@ -4,6 +4,7 @@ import random
 import planning
 import feedback
 import scoring
+import self_reflection
 
 thought_types = [
     "analyze",
@@ -250,9 +251,9 @@ for step in range(config["max_steps"]):
     elif thought == "task":
         print("Creating a task...")
 
-        if "analyze" in recent_thoughts(memory):
+        if "analyze" in scoring.recent_thoughts(memory):
             new_task = {"task": "create_plan", "priority": 2}
-        elif "create_plan" in recent_thoughts(memory):
+        elif "create_plan" in scoring.recent_thoughts(memory):
             new_task = {"task": "execute_task", "priority": 1}
         else:
             new_task = {"task": "analyze_goal", "priority": 2}
@@ -281,8 +282,16 @@ for step in range(config["max_steps"]):
 
     memory["notes"].append(observation)
 
+#Self reflection introduced 
+failure_report = self_reflection.detect_repeated_failures(memory)
+memory["failure_report"] = failure_report
+
+print("\nFAILURE REPORT:")
+print(failure_report)
+
 print("\nUPDATED MEMORY:")
 print(memory)
 save_json("memory.json", memory)
+
 
 

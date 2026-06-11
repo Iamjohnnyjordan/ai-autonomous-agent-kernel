@@ -6,10 +6,37 @@ def recent_thoughts(memory, n=3):
     return thoughts[-n:]
 
 
+# FEEDBACK ANALYSIS SECTION V2 
+# Analyze previous feedback rewards stored in memory
+
+def recent_rewards(memory):
+
+    rewards = [
+
+        note["reward"]
+        for note in memory["notes"]
+        if "reward" in note
+    ]
+
+    return rewards[-5:]
+    #f
+
 # THOUGHT SCORING SECTION
 # Score thoughts based on heuristics, memory, and penalties
 def score_thought(thought, goal, memory, remaining_budget):
     score = 0 
+    # REINFORCEMENT LEARNING SECTION
+    # Adjust thought scoring based on recent rewards
+
+    recent_reward_history = recent_rewards(memory) #pull recent rewards from memory
+
+    if sum(recent_reward_history) > 0:
+        score += 1
+    
+    if sum(recent_reward_history) < 0:
+        score -= 1
+    
+    
 
     if thought == "task":
         score += 5
